@@ -2,12 +2,6 @@
   <h3 align="center">A Movie Application</h3>
 </div>
 
-## 📋 <a name="table">Table of Contents</a>
-
-1. 🤖 [Introduction](#introduction)
-2. ⚙️ [Tech Stack](#tech-stack)
-3. 🔋 [Features](#features)
-
 ## <a name="introduction">🤖 Introduction</a>
 
 Built with React.js for the user interface, Appwrite for the Trending Movies Algorithm, and styled with TailwindCSS. This SPA offers a sleek and modern experience for browsing and discovering movies.

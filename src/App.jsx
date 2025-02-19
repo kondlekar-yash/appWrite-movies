@@ -3,7 +3,7 @@ import Search from "./components/Search.jsx";
 import Spinner from "./components/Spinner.jsx";
 import MovieCard from "./components/MovieCard.jsx";
 import { useDebounce } from "react-use";
-//import { getTrendingMovies, updateSearchCount } from "./appwrite.js";
+import { getTrendingMovies, updateSearchCount } from "./appwrite.js";
 
 const API_KEY = import.meta.env.VITE_IMDB_API_KEY;
 
@@ -25,15 +25,14 @@ const App = () => {
   const [errorMessage, setErrorMessage] = useState("");
   const [isLoading, setIsLoading] = useState(false);
 
-  //const [trendingMovies, setTrendingMovies] = useState([]);
+  const [trendingMovies, setTrendingMovies] = useState([]);
 
   //* Debounce the search term to prevent too many API requests
-  useDebounce(() => setDebouncedSearchTerm(searchTerm), 500, [searchTerm]);
+  useDebounce(() => setDebouncedSearchTerm(searchTerm), 750, [searchTerm]);
 
   const fetchMovies = async (query = "") => {
     setIsLoading(true);
     setErrorMessage("");
-    console.log(query);
 
     try {
       const endpoint =
@@ -57,9 +56,12 @@ const App = () => {
 
       setMovieList(data || []);
 
-      /* if (query && data.length > 0) {
+      if (query && data.length > 0) {
         await updateSearchCount(query, data[0]);
-      } */
+      }
+      if (searchTerm === "") {
+        loadTrendingMovies();
+      }
     } catch (error) {
       console.error(`Error fetching movies: ${error}`);
       setErrorMessage("Error fetching movies. Please try again later.");
@@ -68,7 +70,7 @@ const App = () => {
     }
   };
 
-  /* const loadTrendingMovies = async () => {
+  const loadTrendingMovies = async () => {
     try {
       const movies = await getTrendingMovies();
 
@@ -76,15 +78,15 @@ const App = () => {
     } catch (error) {
       console.error(`Error fetching trending movies: ${error}`);
     }
-  }; */
+  };
 
   useEffect(() => {
     fetchMovies(debouncedSearchTerm);
   }, [debouncedSearchTerm]);
 
-  /* useEffect(() => {
+  useEffect(() => {
     loadTrendingMovies();
-  }, []); */
+  }, []);
 
   return (
     <main>
@@ -101,7 +103,7 @@ const App = () => {
           <Search searchTerm={searchTerm} setSearchTerm={setSearchTerm} />
         </header>
 
-        {/* {trendingMovies?.length > 0 && (
+        {searchTerm === "" && trendingMovies?.length > 0 && (
           <section className="trending">
             <h2>Trending Movies</h2>
 
@@ -114,7 +116,7 @@ const App = () => {
               ))}
             </ul>
           </section>
-        )} */}
+        )}
 
         <section className="all-movies">
           {searchTerm === "" ? (
