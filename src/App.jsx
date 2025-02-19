@@ -5,7 +5,7 @@ import MovieCard from "./components/MovieCard.jsx";
 import { useDebounce } from "react-use";
 import { getTrendingMovies, updateSearchCount } from "./appwrite.js";
 
-const API_KEY = import.meta.env.VITE_IMDB_API_KEY;
+const API_KEY = import.meta.env.IMDB_API_KEY;
 
 const API_BASE_URL = "https://imdb236.p.rapidapi.com/imdb";
 
